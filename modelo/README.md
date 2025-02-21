@@ -1,50 +1,78 @@
-## Proyecto Prueba de APIs
+# Entrenamiento del Modelo de Predicción de Ingresos
 
-![GitHub repo size](https://img.shields.io/github/repo-size/Izainea/api_review)
-![GitHub contributors](https://img.shields.io/github/contributors/Izainea/api_review)
-![GitHub stars](https://img.shields.io/github/stars/Izainea/api_review?style=social)
+Este script de Python (`train.py`) se encarga de entrenar un modelo de Machine Learning para predecir si los ingresos de una persona superan los 50K al año, basándose en datos demográficos y laborales.
 
-![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)
-![FastAPI 0.68.1](https://img.shields.io/badge/fastapi-0.68.1-blue.svg)
-![uvicorn 0.15.0](https://img.shields.io/badge/uvicorn-0.15.0-blue.svg)
+## Descripción
 
-![GitHub forks](https://img.shields.io/github/forks/Izainea/api_review?style=social)
-**Revisión de APIs**
+El script realiza las siguientes tareas:
 
+1.  **Carga de datos:**  Descarga el conjunto de datos "Adult" del repositorio UCI Machine Learning.
+2.  **Preprocesamiento de datos:**
+    *   Elimina duplicados.
+    *   Codifica la variable objetivo (`Income`) como 0 (<=50K) y 1 (>50K).
+    *   Realiza imputación de valores faltantes.
+    *   Aplica One-Hot Encoding a las variables categóricas.
+    *   Escala las variables numéricas.
+3.  **Entrenamiento del modelo:**
+    *   Divide los datos en conjuntos de entrenamiento y prueba.
+    *   Utiliza un modelo RandomForestClassifier.
+    *   Realiza una búsqueda de hiperparámetros utilizando GridSearchCV con validación cruzada estratificada.
+4.  **Evaluación del modelo:**
+    *   Evalúa el modelo con el conjunto de prueba.
+    *   Calcula la precisión (accuracy), el informe de clasificación y la matriz de confusión.
+5.  **Guardado del modelo:**
+    *   Guarda el mejor modelo entrenado.
+    *   Crea y guarda un pipeline que incluye el preprocesamiento y el modelo.
 
-Bienvenidos al repositorio del Seminario para la Revisión de APIs. Este repositorio está diseñado como un recurso educativo integral para entender y trabajar con diferentes tipos de APIs.
+## Dependencias
 
-## Contenido del Repositorio
+Las dependencias del proyecto se listan en el archivo `requirements.txt`:
 
-### Introducción
-- Conceptos básicos de las APIs.
-- Importancia y usos generales de las APIs.
-- Fundamentos de las APIs RESTful.
-- Detalle de los métodos HTTP: GET, POST, PUT/PATCH, DELETE.
-- Métodos de autenticación comunes en APIs.
-- Consideraciones clave de seguridad.
+## Ejecución
 
-### Ejemplos_y_Casos_de_Uso
-- Ejemplos reales de implementación de APIs en empresas.
-- Casos de uso prácticos y aplicaciones.
+1.  **Asegúrate de tener las dependencias instaladas:**
 
-### Demostraciones_Practicas
-- Tutoriales y guías paso a paso para consumir APIs públicas.
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-### Creacion de APIs con FastAPI
+2.  **Ejecuta el script:**
 
-- Creación de una API Restful con FastAPI
-- Consulta de datos de una base de datos con FastAPI
+    ```bash
+    python train.py
+    ```
 
+## Resultados
 
-## Cómo Contribuir
+El script guardará los siguientes archivos en la carpeta `resultados`:
 
-Las contribuciones son bienvenidas. Si tienes ejemplos de código, mejoras en la documentación o cualquier otro recurso que creas que podría ser útil, no dudes en abrir un 'pull request' o una 'issue'.
+*   `mejor_modelo.gz`:  El mejor modelo entrenado.
+*   `pipeline_total.gz`:  Pipeline que incluye el preprocesamiento y el modelo.
+*   `preprocesador.gz`:  Transformador de columnas para el preprocesamiento.
 
-## Licencia
+## Notas
 
-Este proyecto está bajo la Licencia MIT. Para más detalles, consulta el archivo [LICENSE](LICENSE) en este repositorio.
+*   El conjunto de datos "Adult" se descarga automáticamente del repositorio UCI Machine Learning.
+*   El script utiliza un modelo RandomForestClassifier, pero se puede modificar para utilizar otros modelos.
+*   La búsqueda de hiperparámetros se realiza con GridSearchCV, pero se pueden utilizar otras técnicas de optimización.
+*   El script guarda el mejor modelo y el pipeline para que puedan ser utilizados posteriormente para realizar predicciones.
 
----
+##  Estructura del Proyecto
 
-Hecho con ❤ por [izainea](https://izainea.github.io/)
+```.
+├── api/
+│   ├── api.py           # Código de la API
+│   └── __init__.py
+├── app/
+│   ├── app.py           # Código de la aplicación Streamlit
+│   └── __init__.py
+├── modelo/
+│   ├── train.py       # Este archivo (código de entrenamiento)
+│   └── __init__.py
+├── resultados/        # Carpeta para guardar modelos y datos (mapeada con volúmenes)
+├──.env              # Archivo de entorno (para desarrollo)
+├── docker-compose.yml  # Archivo de configuración de Docker Compose
+├── Dockerfile-api    # Dockerfile para la API
+├── Dockerfile-app    # Dockerfile para la aplicación Streamlit
+├── Dockerfile-modelo # Dockerfile para el modelo
+└── README.md         # Este archivo

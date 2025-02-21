@@ -1,50 +1,98 @@
-## Proyecto Prueba de APIs
+# API de Predicción de Ingresos
 
-![GitHub repo size](https://img.shields.io/github/repo-size/Izainea/api_review)
-![GitHub contributors](https://img.shields.io/github/contributors/Izainea/api_review)
-![GitHub stars](https://img.shields.io/github/stars/Izainea/api_review?style=social)
+Este repositorio contiene una API REST desarrollada con FastAPI para la predicción de ingresos basada en un modelo de Machine Learning.
 
-![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)
-![FastAPI 0.68.1](https://img.shields.io/badge/fastapi-0.68.1-blue.svg)
-![uvicorn 0.15.0](https://img.shields.io/badge/uvicorn-0.15.0-blue.svg)
+## Descripción
 
-![GitHub forks](https://img.shields.io/github/forks/Izainea/api_review?style=social)
-**Revisión de APIs**
+La API expone dos endpoints principales:
 
+*   `/`:  Endpoint raíz que devuelve un mensaje de bienvenida.
+*   `/predict`: Endpoint para realizar predicciones de ingresos.  Este endpoint está protegido por autenticación mediante clave API.
 
-Bienvenidos al repositorio del Seminario para la Revisión de APIs. Este repositorio está diseñado como un recurso educativo integral para entender y trabajar con diferentes tipos de APIs.
+## Arquitectura
 
-## Contenido del Repositorio
+La API se construye utilizando las siguientes tecnologías:
 
-### Introducción
-- Conceptos básicos de las APIs.
-- Importancia y usos generales de las APIs.
-- Fundamentos de las APIs RESTful.
-- Detalle de los métodos HTTP: GET, POST, PUT/PATCH, DELETE.
-- Métodos de autenticación comunes en APIs.
-- Consideraciones clave de seguridad.
+*   **FastAPI:** Framework web moderno y de alto rendimiento para construir APIs con Python.
+*   **Uvicorn:** Servidor ASGI para ejecutar la API.
+*   **joblib:** Librería para cargar el modelo de Machine Learning previamente entrenado.
+*   **pandas:** Librería para manipulación y análisis de datos.
 
-### Ejemplos_y_Casos_de_Uso
-- Ejemplos reales de implementación de APIs en empresas.
-- Casos de uso prácticos y aplicaciones.
+## Instalación
 
-### Demostraciones_Practicas
-- Tutoriales y guías paso a paso para consumir APIs públicas.
+1.  **Clona el repositorio:**
 
-### Creacion de APIs con FastAPI
+    ```bash
+    git clone [https://github.com/TU_USUARIO/NOMBRE_DEL_REPOSITORIO.git](https://www.google.com/search?q=https://github.com/TU_USUARIO/NOMBRE_DEL_REPOSITORIO.git)  # Reemplaza con tu URL
+    cd NOMBRE_DEL_REPOSITORIO
+    ```
 
-- Creación de una API Restful con FastAPI
-- Consulta de datos de una base de datos con FastAPI
+2.  **Crea un entorno virtual (recomendado):**
 
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # En Linux/macOS
+    venv\Scripts\activate  # En Windows
+    ```
 
-## Cómo Contribuir
+3.  **Instala las dependencias:**
 
-Las contribuciones son bienvenidas. Si tienes ejemplos de código, mejoras en la documentación o cualquier otro recurso que creas que podría ser útil, no dudes en abrir un 'pull request' o una 'issue'.
+    ```bash
+    pip install -r requirements.txt  # Asegúrate de tener un archivo requirements.txt con las dependencias
+    ```
 
-## Licencia
+## Uso
 
-Este proyecto está bajo la Licencia MIT. Para más detalles, consulta el archivo [LICENSE](LICENSE) en este repositorio.
+1.  **Configuración de la clave API:**
 
----
+    *   **Desarrollo:** Crea un archivo `.env` en el mismo directorio que `docker-compose.yml` con la variable `ingresos` y tu clave API:
 
-Hecho con ❤ por [izainea](https://izainea.github.io/)
+        ```
+        ingresos=TU_CLAVE_API_AQUI
+        ```
+
+2.  **Ejecutar la API con Docker Compose (Recomendado):**
+
+    ```bash
+    docker-compose up -d --build
+    ```
+
+3.  **Interactuar con la API:**
+
+    *   **Endpoint raíz:**
+
+        ```bash
+        curl http://localhost:8000/
+        ```
+
+    *   **Endpoint de predicción (`/predict`):**
+
+        *   **Método:** `POST`
+        *   **Encabezado:** `X-API-Key: TU_CLAVE_API_AQUI`
+        *   **Cuerpo (JSON):**  Datos de entrada para el modelo.  Deben coincidir con las columnas de entrenamiento del modelo.
+
+            ```json
+            {
+              "feature1": valor1,
+              "feature2": valor2,
+              // ... otros features
+            }
+            ```
+
+        *   **Ejemplo (usando `curl`):**
+
+            ```bash
+            curl -X POST -H "X-API-Key: TU_CLAVE_API_AQUI" -H "Content-Type: application/json" -d '{ "feature1": valor1, "feature2": valor2, ... }' http://localhost:8000/predict
+            ```
+
+    *   **Generar clave API**
+
+        ```bash
+        curl http://localhost:8000/generate_api_key
+        ```
+
+        Este endpoint genera una clave API aleatoria para pruebas. 
+
+## Dependencias
+
+Las dependencias del proyecto se listan en el archivo `requirements.txt`:

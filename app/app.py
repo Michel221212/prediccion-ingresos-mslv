@@ -1,12 +1,19 @@
+# app.py
 import streamlit as st
 import requests
+import os  # Para acceder a variables de entorno
 
-# Función para realizar la solicitud POST a la API
-def realizar_solicitud_post(url, data):
+# URL de la API
+url = 'http://127.0.0.1:8000/predict'
+API_KEY_NAME = "X-API-Key"
+
+# Obtener la clave API desde una variable de entorno (o Streamlit secrets)
+API_KEY = os.environ.get("ingresos")  # Cambia "API_KEY" por "ingresos"
+
+# Función para realizar la solicitud POST a la API (corregida)
+def realizar_solicitud_post(url, data, headers):
     try:
-        response = requests.post(url, json=data)
-        # Considera añadir headers si necesitas pasar un token de autorización
-        # Ejemplo: response = requests.post(url, json=data, headers={"Authorization": "Bearer tu_token_aqui"})
+        response = requests.post(url, json=data, headers=headers)
         if response.status_code == 200:
             return True, response.json()
         else:
@@ -14,14 +21,13 @@ def realizar_solicitud_post(url, data):
     except Exception as e:
         return False, str(e)
 
+st.title("Aplicativo para la Predicción de Ingresos - Gerencia de Proyectos para Ciencia de Datos")
 
-st.title("Consulta de API para Modelo de Adultos")
-
-# Formulario para introducir los datos requeridos por la API
-with st.form("api_form"):
-    age = st.number_input("Edad", min_value=1, value=21)
+# Formulario para introducir los datos
+with st.form("input_form"):
+    age = st.number_input("Edad", min_value=1, value=30)
     workclass = st.selectbox("Clase de trabajo", ["Private", "Self-emp-not-inc", "Self-emp-inc", "Federal-gov", "Local-gov", "State-gov", "Without-pay", "Never-worked"])
-    fnlwgt = st.number_input("fnlwgt", value=346478)
+    fnlwgt = st.number_input("fnlwgt", value=100000)
     education = st.selectbox("Educación", ["Bachelors", "Some-college", "11th", "HS-grad", "Prof-school", "Assoc-acdm", "Assoc-voc", "9th", "7th-8th", "12th", "Masters", "1st-4th", "10th", "Doctorate", "5th-6th", "Preschool"])
     education_num = st.number_input("Número de educación", min_value=1, max_value=16, value=10)
     marital_status = st.selectbox("Estado civil", ["Married-civ-spouse", "Divorced", "Never-married", "Separated", "Widowed", "Married-spouse-absent", "Married-AF-spouse"])
@@ -29,15 +35,16 @@ with st.form("api_form"):
     relationship = st.selectbox("Relación", ["Wife", "Own-child", "Husband", "Not-in-family", "Other-relative", "Unmarried"])
     race = st.selectbox("Raza", ["White", "Asian-Pac-Islander", "Amer-Indian-Eskimo", "Other", "Black"])
     sex = st.selectbox("Sexo", ["Male", "Female"])
-    capital_gain = st.number_input("Ganancia de capital", value=4000)
+    capital_gain = st.number_input("Ganancia de capital", value=0)
     capital_loss = st.number_input("Pérdida de capital", value=0)
-    hours_per_week = st.number_input("Horas por semana", min_value=1, max_value=168, value=45)
+    hours_per_week = st.number_input("Horas por semana", min_value=1, max_value=168, value=40)
     native_country = st.text_input("País de origen", value="United-States")
 
-    submitted = st.form_submit_button("Enviar")
+    submitted = st.form_submit_button("Predecir")
 
     if submitted:
-        datos_json = {
+        # Crear el diccionario con los datos de entrada
+        data = {
             'age': age,
             'workclass': workclass,
             'fnlwgt': fnlwgt,
@@ -53,12 +60,12 @@ with st.form("api_form"):
             'hours-per-week': hours_per_week,
             'native-country': native_country
         }
-
-        url = 'http://127.0.0.1:8000/adults_model/'
-
-        exito, respuesta = realizar_solicitud_post(url, datos_json)
+        # Añade la clave API a los headers (obtenida de forma segura)
+        headers = {API_KEY_NAME: API_KEY}  
+        exito, respuesta = realizar_solicitud_post(url, data, headers=headers)  # Llamada correcta
 
         if exito:
-            st.success(f'Solicitud exitosa. Respuesta: {respuesta}')
+            # Mostrar la predicción
+            st.success(f"Predicción: {respuesta['prediction']}")
         else:
-            st.error(f'Error en la solicitud: {respuesta}')
+            st.error(f"Error en la solicitud: {respuesta}")
