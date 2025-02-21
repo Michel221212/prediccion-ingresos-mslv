@@ -56,23 +56,3 @@ El script guardará los siguientes archivos en la carpeta `resultados`:
 *   El script utiliza un modelo RandomForestClassifier, pero se puede modificar para utilizar otros modelos.
 *   La búsqueda de hiperparámetros se realiza con GridSearchCV, pero se pueden utilizar otras técnicas de optimización.
 *   El script guarda el mejor modelo y el pipeline para que puedan ser utilizados posteriormente para realizar predicciones.
-
-##  Estructura del Proyecto
-
-```.
-├── api/
-│   ├── api.py           # Código de la API
-│   └── __init__.py
-├── app/
-│   ├── app.py           # Código de la aplicación Streamlit
-│   └── __init__.py
-├── modelo/
-│   ├── train.py       # Este archivo (código de entrenamiento)
-│   └── __init__.py
-├── resultados/        # Carpeta para guardar modelos y datos (mapeada con volúmenes)
-├──.env              # Archivo de entorno (para desarrollo)
-├── docker-compose.yml  # Archivo de configuración de Docker Compose
-├── Dockerfile-api    # Dockerfile para la API
-├── Dockerfile-app    # Dockerfile para la aplicación Streamlit
-├── Dockerfile-modelo # Dockerfile para el modelo
-└── README.md         # Este archivo

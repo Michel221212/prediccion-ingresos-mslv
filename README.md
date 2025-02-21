@@ -1,24 +1,26 @@
 # Predicción de Ingresos - Construcción y Publicación de APP y APIs
 
-![GitHub repo size](https://img.shields.io/github/repo-size/Michel221212/copa_libertadores_mslv)
-![GitHub contributors](https://img.shields.io/github/contributors/Michel221212/copa_libertadores_mslv)
-![GitHub stars](https://img.shields.io/github/stars/Michel221212/copa_libertadores_mslv?style=social)
+![GitHub repo size](https://img.shields.io/github/repo-size/Michel221212/prediccion-ingresos-mslv)
+![GitHub contributors](https://img.shields.io/github/contributors/Michel221212/prediccion-ingresos-mslv)
+![GitHub stars](https://img.shields.io/github/stars/Michel221212/prediccion-ingresos-mslv?style=social)
 
 ![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)
 ![FastAPI 0.68.1](https://img.shields.io/badge/fastapi-0.68.1-blue.svg)
 ![uvicorn 0.15.0](https://img.shields.io/badge/uvicorn-0.15.0-blue.svg)
 ![Streamlit 1.30.0](https://img.shields.io/badge/streamlit-1.30.0-red.svg)
 
-![GitHub forks](https://img.shields.io/github/forks/Michel221212/copa_libertadores_mslv?style=social)
+![GitHub forks](https://img.shields.io/github/forks/Michel221212/prediccion-ingresos-mslv?style=social)
 **Ejercicio de APIs**
 
 ## Actividad presentada por: Michel Stivens Larrota Villalba
 
 # Actividad: Ajuste código de Machine Learning
 
-El presente repositorio tiene como proposito presentar un producto para la materia de Gerencia de Proyectos para Ciencia de Datos, el cual se representa en el ajuste del código suministrado en la clase realizada el 15 de febrero de 2025 en las instalaciones de la Universidad EAN, para la generación del resultado final se presenta el siguiente registro de fases y actividades:
+El presente repositorio tiene como propósito presentar un producto para la materia de Gerencia de Proyectos para Ciencia de Datos, el cual se representa en el ajuste del código suministrado en la clase realizada el 15 de febrero de 2025 en las instalaciones de la Universidad EAN, para la generación del resultado final se presenta el siguiente registro de fases y actividades:
 
 ## Fases y actividades desarrolladas
+
+Este proyecto se enfoca en desarrollar un modelo de machine learning para la predicción de ingresos, junto con una API y una aplicación para su despliegue y uso.
 
 ### Fase 1: Organización del Proyecto y Creación de Ramas
 1. Crea el repositorio en GitHub.
@@ -30,11 +32,11 @@ El presente repositorio tiene como proposito presentar un producto para la mater
 ### Fase 2: Ajuste del Código para la Parametrización de los Datos
 1. Revisión y ajuste del código de carga de datos y análisis descriptivo.
 2. Revisión y ajuste del código de limpieza y parametrización de datos.
-3. Revisión y ajuste del código de entreamiento del modelo.
+3. Revisión y ajuste del código de entrenamiento del modelo.
 4. Revisión y ajuste del código de generación del Pipeline.
 4. Prueba de todas las funcionalidades.
 
-### Fase 3: Ajuste y Paremetrización de API y APP
+### Fase 3: Ajuste y Parametrización de API y APP
 1. Revisión y ajuste del código para la API.
 2. Revisión y ajuste del código para la APP.
 3. Prueba de todas las funcionalidades.
@@ -45,15 +47,74 @@ El presente repositorio tiene como proposito presentar un producto para la mater
 3. Probar que todo funcione corriendo docker-compose up
 
 ### Fase 5: Integración Final
-1. Merge de las tres ramas en main
-2. Pruebas de integración: modelo → API → App
+1. Pruebas de integración: modelo → API → App
 
-<div style="text-align: center;">
+#### Carga de la API y la APP 
+<div style="text-align: left;">
 <image src="resultados/carga-api-app.png" alt="Carga en sistema de la API y la APP" width="600" height="265">
+</div>
+
+#### Carga del formulario y la predicción
+
+<div style="text-align: left;">
 <image src="resultados/carga-formulario.png" alt="Carga del formulario de registro y predicción" width="600" height="1002">
+</div>
+
+#### Carga completa del ambiente en Docker Desktop
+
+<div style="text-align: left;">
 <image src="resultados/docker-desktop.png" alt="Evidencia de carga completa en el Docker Desktop" width="600" height="691">
 </div>
----
+
+## Estructura del proyecto
+
+```.
+ingresos_ml/
+├── api/
+│   ├── api.py                  # Código de la API
+│   ├── Dockerfile              # Dockerfile para la API
+│   └── README.md               # Proporciona información general de la rama api
+│   ├── requirements.txt        # Lista de dependencias generales de la rama api
+├── app/
+│   ├── app.py                  # Código de la aplicación Streamlit
+│   ├── Dockerfile              # Dockerfile para la aplicación Streamlit
+│   └── README.md               # Proporciona información general de la rama app
+│   ├── requirements.txt        # Lista de dependencias generales de la rama app
+├── modelo/
+│   ├── Dockerfile              # Dockerfile para el modelo
+│   ├── README.md               # Proporciona información general de la rama modelo     
+│   ├── requirements.txt        # Lista de dependencias generales de la rama modelo
+│   └── train.py                # Este archivo (código de parametrización de los datos y entrenamiento)
+├── resultados/                 
+│   ├── carga-api-app.png       # Pantallazo que evidencia la carga en sistema de la API y la APP
+│   ├── carga-formulario.png    # Pantallazo que evidencia la carga en sistema del formulario y la predicción
+│   ├── docker-desktop.png      # Pantallazo que evidencia la carga en sistema del ambiente en Docker Desktop
+│   ├── mejor_modelo.gz         # Modelo de Machine Learning entrenado y optimizado
+│   ├── pipeline_total.gz       # Pipeline completo de preprocesamiento y transformación de datos
+│   └── preprocesador.gz        # Objeto o conjunto de instrucciones para el preprocesamiento de datos
+├── .env                        # Archivo de configuración para variables de entorno
+├── docker-compose.yml          # Archivo de configuración de Docker Compose
+├── poetry.lock                 # Archivos de configuración y dependencias para Poetry
+├── pyproject.toml              # Archivos de configuración y dependencias para Poetry
+├── README.md                   # proporciona información general del proyecto
+└── requirements.txt            # Lista de dependencias generales del proyecto
+```
+
+## Descripción de los componentes
+
+* **`api/`**: Contiene el código de la API desarrollada con Python (`api.py`), junto con un Dockerfile para su contenedorización.
+* **`app/`**: Incluye el código de la aplicación (posiblemente web) que interactúa con la API (`app.py`), también con su propio Dockerfile.
+* **`modelo/`**: Alberga los scripts y archivos relacionados con el modelo de machine learning:
+    * `train.py`: Script para el entrenamiento del modelo.
+    * `requirements.txt`: Lista de dependencias necesarias para el modelo.
+    * Archivos del modelo pre-entrenado (`.gz`).
+* **`resultados/`**: Almacena imágenes y archivos resultantes del entrenamiento y despliegue, como gráficos y modelos serializados.
+* **Archivos raíz:**
+    * `.env`: Archivo de configuración para variables de entorno.
+    * `docker-compose.yml`: Archivo para la gestión de contenedores con Docker Compose.
+    * `poetry.lock` y `pyproject.toml`: Archivos de configuración y dependencias para Poetry.
+    * `README.md`: Este archivo, que proporciona información general del proyecto.
+    * `requirements.txt`: Lista de dependencias generales del proyecto.
 
 ## Investigación de Concepto - Docker
 
